@@ -17,6 +17,10 @@ export function rotate(p: Point2D, t: Point2D, a: number) {
     return p;
 }
 
+export function ends<T>(a: T[]): [T, T] {
+    return [a[0], a[a.length - 1]];
+}
+
 export function project(vertices: Vector2[], axis: Vector2) {
     const dots = vertices.map((vertex) => vertex.dot(axis));
 
