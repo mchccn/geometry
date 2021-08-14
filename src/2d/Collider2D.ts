@@ -2,25 +2,50 @@ import { Vector2 } from "../linalg/Vector2";
 import { Circle } from "./Circle";
 import { Rectangle } from "./Rectangle";
 import { Shape2D } from "./Shape2D";
-import { edges, ends, orthogonal, overlap, project } from "./utils";
+import { edges, minmax, orthogonal, overlap, project } from "./utils";
 
 export class Collider2D<A extends Shape2D | Circle = Shape2D, B extends Shape2D | Circle = Shape2D> {
     public constructor(public readonly a: A, public readonly b: B) {}
 
-    public collide(method: "AABB" | "SAT" = "SAT") {
-        if (method === "SAT") {
-            if (this.a instanceof Circle && this.b instanceof Circle) {
-                const dx = this.a.x - this.b.x;
-                const dy = this.a.y - this.b.y;
-
-                const d = Math.sqrt(dx * dx + dy * dy);
-
-                return d < this.a.r + this.b.r;
+    public collide(method: "AABB" | "SAT" | "CIRCLE" = "SAT") {
+        if (method === "AABB") {
+            function rect([minX, maxX, minY, maxY]: [number, number, number, number]) {
+                return new Rectangle(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2, maxX - minX, maxY - minY);
             }
 
-            if (this.a instanceof Circle) throw 0;
+            function intersecting(a: Rectangle, b: Rectangle) {
+                return a.x - a.w / 2 < b.x + b.w / 2 && a.x + a.w / 2 > b.x - b.w / 2 && a.y - a.h / 2 < b.y + b.h / 2 && a.y + a.h / 2 > b.y - b.h / 2;
+            }
 
-            if (this.b instanceof Circle) throw 0;
+            return intersecting(rect(minmax(this.a)), rect(minmax(this.b)));
+        }
+
+        if (this.a instanceof Circle && this.b instanceof Circle) {
+            const dx = this.a.x - this.b.x;
+            const dy = this.a.y - this.b.y;
+
+            const d = Math.sqrt(dx * dx + dy * dy);
+
+            return d < this.a.r + this.b.r;
+        }
+
+        if (method === "SAT") {
+            if (this.a instanceof Circle) {
+                const a = this.b;
+                const b = this.a;
+
+                Object.assign(this, { a, b });
+            }
+
+            if (((p: any): p is Circle => p instanceof Circle)(this.a)) return;
+
+            if (this.b instanceof Circle) {
+                if (!overlap(minmax(this.a).slice(0, 2) as [number, number], [this.b.x - this.b.r, this.b.x + this.b.r])) return false;
+
+                if (!overlap(minmax(this.a).slice(2) as [number, number], [this.b.y - this.b.r, this.b.y + this.b.r])) return false;
+
+                return true;
+            }
 
             const sides = [...edges(this.a.vertices.map((p) => new Vector2(p.x, p.y))), ...edges(this.b.vertices.map((p) => new Vector2(p.x, p.y)))];
 
@@ -45,30 +70,23 @@ export class Collider2D<A extends Shape2D | Circle = Shape2D, B extends Shape2D 
             return true;
         }
 
-        if (method === "AABB") {
-            function minmax(p: Shape2D | Circle): [number, number, number, number] {
-                if (p instanceof Circle) {
-                    const k = Math.SQRT2 * p.r;
+        if (method === "CIRCLE") {
+            function circle(p: Shape2D) {
+                const r = Math.max(...p.vertices.map((v) => Math.hypot(p.x - v.x, p.y - v.y)));
 
-                    return [p.x - k, p.y - k, p.x + k, p.y + k];
-                }
-
-                const [minX, maxX] = ends(p.vertices.map((v) => v.x).sort((a, b) => a - b));
-
-                const [minY, maxY] = ends(p.vertices.map((v) => v.y).sort((a, b) => a - b));
-
-                return [minX, maxX, minY, maxY];
+                return new Circle(p.x, p.y, r);
             }
 
-            function rect([minX, maxX, minY, maxY]: [number, number, number, number]) {
-                return new Rectangle(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2, maxX - minX, maxY - minY);
-            }
+            const a = this.a instanceof Circle ? this.a : circle(this.a);
 
-            function intersecting(a: Rectangle, b: Rectangle) {
-                return a.x - a.w / 2 < b.x + b.w / 2 && a.x + a.w / 2 > b.x - b.w / 2 && a.y - a.h / 2 < b.y + b.h / 2 && a.y + a.h / 2 > b.y - b.h / 2;
-            }
+            const b = this.b instanceof Circle ? this.b : circle(this.b);
 
-            return intersecting(rect(minmax(this.a)), rect(minmax(this.b)));
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+
+            const d = Math.sqrt(dx * dx + dy * dy);
+
+            return d < a.r + b.r;
         }
 
         throw new Error("Unsupported collision detection method.");
