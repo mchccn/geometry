@@ -2,11 +2,11 @@ import { Point2D } from "./Point2D";
 import { Shape2D } from "./Shape2D";
 import { PolygonType } from "./types";
 
-export class Polygon extends Shape2D<Point2D[], PolygonType> {
-    private angle = 0;
+export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = PolygonType> extends Shape2D<Mesh, Type> {
+    protected angle = 0;
 
     public constructor(x: number, y: number, vertices: Point2D[]) {
-        super(new Point2D(x, y), vertices, `${vertices.length}_GON`);
+        super(new Point2D(x, y), vertices as Mesh, `${vertices.length}_GON` as Type);
 
         if (vertices.length < 3) throw new Error(`Polygons must have at least 3 vertices.`);
     }
@@ -28,7 +28,7 @@ export class Polygon extends Shape2D<Point2D[], PolygonType> {
     }
 
     public clone() {
-        return new Polygon(this.pos.x, this.pos.y, this.mesh).rotate(this.angle);
+        return new Polygon<Mesh, Type>(this.pos.x, this.pos.y, this.mesh).rotate(this.angle);
     }
 
     protected recalculateMesh() {
