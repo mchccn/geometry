@@ -116,4 +116,26 @@ export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = P
 
         return this.mesh;
     }
+
+    public static isConcave(p: Polygon) {
+        let flag = 0;
+
+        for (let i = 0; i < p.vertices.length; i++) {
+            const j = (i + 1) % p.vertices.length;
+            const k = (i + 2) % p.vertices.length;
+
+            const z =
+                (p.vertices[j].x - p.vertices[i].x) * (p.vertices[k].y - p.vertices[j].y) -
+                (p.vertices[j].y - p.vertices[i].y) * (p.vertices[k].x - p.vertices[j].x);
+
+            if (z < 0) flag |= 1;
+            else if (z > 0) flag |= 2;
+
+            if (flag === 3) return false;
+        }
+
+        if (!flag) throw new EuclideanGeometryError(`Status of this polygon cannot be determined.`);
+
+        return true;
+    }
 }
