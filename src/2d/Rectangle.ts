@@ -5,7 +5,7 @@ import { Rotatable } from "./types";
 export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RECTANGLE"> implements Rotatable {
     protected dim: Point2D;
 
-    constructor(x = 0, y = 0, w = 1, h = 1, protected angle = 0) {
+    public constructor(x = 0, y = 0, w = 1, h = 1, protected angle = 0) {
         super(
             new Point2D(x, y),
             [

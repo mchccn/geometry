@@ -3,7 +3,7 @@ import { Shape2D } from "./Shape2D";
 import { Rotatable } from "./types";
 
 export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUARE"> implements Rotatable {
-    constructor(x = 0, y = 0, protected side = 1, protected angle = 0) {
+    public constructor(x = 0, y = 0, protected side = 1, protected angle = 0) {
         super(
             new Point2D(x, y),
             [

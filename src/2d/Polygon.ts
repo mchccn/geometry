@@ -5,7 +5,7 @@ import { PolygonType } from "./types";
 export class Polygon extends Shape2D<Point2D[], PolygonType> {
     private angle = 0;
 
-    constructor(x: number, y: number, vertices: Point2D[]) {
+    public constructor(x: number, y: number, vertices: Point2D[]) {
         super(new Point2D(x, y), vertices, `${vertices.length}_GON`);
 
         if (vertices.length < 3) throw new Error(`Polygons must have at least 3 vertices.`);
