@@ -41,6 +41,10 @@ export class Point2D {
         this.coords[1] = value;
     }
 
+    public equals(p: Point2D) {
+        return this.x === p.x && this.y === p.y;
+    }
+
     public toArray() {
         return this.coords;
     }

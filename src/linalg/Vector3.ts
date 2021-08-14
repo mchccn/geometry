@@ -1,6 +1,6 @@
 import { Matrix } from "./Matrix";
 import { CreateMatrix } from "./types";
-import { clone, rotate, YouSuckAtMathError } from "./utils";
+import { clone, rotate, CalculationError } from "./utils";
 
 export class Vector3 {
     public static readonly ORDER = 3;
@@ -232,7 +232,7 @@ export class Vector3 {
     }
 
     public static lerp(a: Vector3, b: Vector3, t: number) {
-        if (t < 0 || t > 1) throw new YouSuckAtMathError("t in lerp(a, b, t) is between 0 and 1 inclusive");
+        if (t < 0 || t > 1) throw new CalculationError("t in lerp(a, b, t) is between 0 and 1 inclusive");
 
         const lerp = (a: number, b: number, t: number) => (1 - t) * a + t * b;
 
