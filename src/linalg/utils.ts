@@ -2,8 +2,8 @@ export function clone<A extends any[]>(array: A): A {
     return [...array] as A;
 }
 
-export class CalculationError extends Error {
-    public readonly name = "CalculationError";
+export class LinearAlgebraError extends Error {
+    public readonly name = "LinearAlgebraError";
 
     public constructor(public readonly message: string = "") {
         super(message);

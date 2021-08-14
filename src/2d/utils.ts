@@ -2,6 +2,14 @@ import { Vector2 } from "../linalg/Vector2";
 import { Circle } from "./Circle";
 import { Shape2D } from "./Shape2D";
 
+export class EuclideanGeometryError extends Error {
+    public readonly name = "EuclideanGeometryError";
+
+    public constructor(public readonly message: string = "") {
+        super(message);
+    }
+}
+
 export function ends<T>(a: T[]): [T, T] {
     return [a[0], a[a.length - 1]];
 }

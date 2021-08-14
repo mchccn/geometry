@@ -1,8 +1,8 @@
 import { Point2D } from "./Point2D";
 import { Shape2D } from "./Shape2D";
-import { Rotatable } from "./types";
+import { PlanarEntity, Rotatable } from "./types";
 
-export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUARE"> implements Rotatable {
+export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUARE"> implements Rotatable, PlanarEntity {
     public constructor(x = 0, y = 0, protected side = 1, protected angle = 0) {
         super(
             new Point2D(x, y),
@@ -40,6 +40,10 @@ export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUAR
 
     public get area() {
         return this.s * this.s;
+    }
+
+    public get perimeter() {
+        return this.s * 4;
     }
 
     public rotate(a: number, about = new Point2D(this.pos.x, this.pos.y)) {

@@ -1,3 +1,4 @@
+import { LineSegment2D } from "./LineSegment2D";
 import { Point2D } from "./Point2D";
 
 export abstract class Shape2D<Mesh extends Point2D[] = Point2D[], Type extends string = "SHAPE_2D"> {
@@ -5,6 +6,10 @@ export abstract class Shape2D<Mesh extends Point2D[] = Point2D[], Type extends s
 
     public get vertices() {
         return this.mesh.map((v) => Point2D.from(v.toArray()));
+    }
+
+    public get edges() {
+        return this.mesh.map((v, i, a) => new LineSegment2D(v, a[(i + 1) % a.length]));
     }
 
     public get x() {

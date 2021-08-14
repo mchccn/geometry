@@ -1,5 +1,5 @@
 import { CreateArray, CreateMatrix, GenericMatrix } from "./types";
-import { rotate, CalculationError } from "./utils";
+import { rotate, LinearAlgebraError } from "./utils";
 import { Vector2 } from "./Vector2";
 import { Vector3 } from "./Vector3";
 import { Vector4 } from "./Vector4";
@@ -8,7 +8,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public constructor(public readonly width: Width, public readonly height: Height, contents?: CreateMatrix<Width, Height>) {
         super();
 
-        if (width < 0 || height < 0) throw new CalculationError("matrices cannot have a negative width or height");
+        if (width < 0 || height < 0) throw new LinearAlgebraError("matrices cannot have a negative width or height");
 
         for (let y = 0; y < height; y++) this[y] = new Array<number>(width).fill(0) as CreateArray<Width>;
 
@@ -20,7 +20,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public add(factor: number | Matrix<Width, Height>): this {
         if (Matrix.isMatrix(factor)) {
             if (this.width !== factor.width || this.height !== factor.height)
-                throw new CalculationError("the first matrix's dimensions must be the same as the second's");
+                throw new LinearAlgebraError("the first matrix's dimensions must be the same as the second's");
 
             this.forEach((row, y) => row.forEach((_, x) => (this[y][x] += factor[y][x])));
         } else {
@@ -35,7 +35,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public subtract(factor: number | Matrix<Width, Height>): this {
         if (Matrix.isMatrix(factor)) {
             if (this.width !== factor.width || this.height !== factor.height)
-                throw new CalculationError("the first matrix's dimensions must be the same as the second's");
+                throw new LinearAlgebraError("the first matrix's dimensions must be the same as the second's");
 
             this.forEach((row, y) => row.forEach((_, x) => (this[y][x] -= factor[y][x])));
         } else {
@@ -50,7 +50,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public multiply(factor: number | Matrix<number, number>): this {
         if (Matrix.isMatrix(factor)) {
             if (this.width !== (factor.height as number))
-                throw new CalculationError("the first matrix's width must be the same as the second matrix's height");
+                throw new LinearAlgebraError("the first matrix's width must be the same as the second matrix's height");
 
             const matrix = Matrix.rotate(factor, 1);
 
@@ -79,7 +79,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public divide(factor: number | Matrix<Width, Height>): this {
         if (Matrix.isMatrix(factor)) {
             if (this.width !== (factor.height as number))
-                throw new CalculationError("the first matrix's width must be the same as the second matrix's height");
+                throw new LinearAlgebraError("the first matrix's width must be the same as the second matrix's height");
 
             this.multiply(factor.inverse as Matrix<Width, Height>);
         } else {
@@ -145,7 +145,7 @@ export class Matrix<Width extends number, Height extends number> extends Array<C
     public get inverse() {
         const determinant = this.determinant();
 
-        if (determinant === 0) throw new CalculationError("the determinant of this matrix is zero");
+        if (determinant === 0) throw new LinearAlgebraError("the determinant of this matrix is zero");
 
         const { adjugate } = this;
 

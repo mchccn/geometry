@@ -1,6 +1,6 @@
 export type Decrement<X extends number> = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25][X];
 
-export type CreateArray<Length extends number> = Length extends -1 | 0 ? [] : [number, ...CreateArray<Decrement<Length>>];
+export type CreateArray<Length extends number, T = number> = Length extends -1 | 0 ? [] : [T, ...CreateArray<Decrement<Length>, T>];
 
 export type CreateMatrix<Width extends number, Height extends number> = Height extends -1 | 0
     ? []

@@ -1,8 +1,8 @@
 import { Point2D } from "./Point2D";
 import { Shape2D } from "./Shape2D";
-import { Rotatable } from "./types";
+import { PlanarEntity, Rotatable } from "./types";
 
-export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RECTANGLE"> implements Rotatable {
+export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RECTANGLE"> implements Rotatable, PlanarEntity {
     protected dim: Point2D;
 
     public constructor(x = 0, y = 0, w = 1, h = 1, protected angle = 0) {
@@ -54,6 +54,10 @@ export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RE
 
     public get area() {
         return this.w * this.h;
+    }
+
+    public get perimeter() {
+        return this.w * 2 + this.h * 2;
     }
 
     public rotate(a: number, about = new Point2D(this.pos.x, this.pos.y)) {

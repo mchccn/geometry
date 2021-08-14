@@ -65,6 +65,13 @@ export class Point2D {
         return this;
     }
 
+    public static distance(a: Point2D, b: Point2D) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public static from(coords: [number, number]) {
         return new Point2D(coords[0], coords[1]);
     }

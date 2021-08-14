@@ -89,6 +89,6 @@ export class Collider2D<A extends Shape2D | Circle = Shape2D, B extends Shape2D 
             return d < a.r + b.r;
         }
 
-        throw new Error("Unsupported collision detection method.");
+        throw new TypeError("Unsupported collision detection method.");
     }
 }

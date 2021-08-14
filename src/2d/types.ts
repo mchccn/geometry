@@ -6,3 +6,13 @@ export interface Rotatable {
     a: number;
     rotate(a: number, about: Point2D): this;
 }
+
+export type PlanarEntity<IsCircle extends boolean = false> = IsCircle extends true
+    ? {
+          area: number;
+          circumference: number;
+      }
+    : {
+          area: number;
+          perimeter: number;
+      };
