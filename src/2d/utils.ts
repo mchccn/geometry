@@ -1,21 +1,4 @@
 import { Vector2 } from "../linalg/Vector2";
-import Point2D from "./Point2D";
-
-export function rotate(p: Point2D, t: Point2D, a: number) {
-    const s = Math.sin(a);
-    const c = Math.cos(a);
-
-    p[0] -= t[0];
-    p[1] -= t[1];
-
-    const nx = p[0] * c - p[1] * s;
-    const ny = p[0] * s + p[1] * c;
-
-    p[0] = nx + t[0];
-    p[1] = ny + t[1];
-
-    return p;
-}
 
 export function ends<T>(a: T[]): [T, T] {
     return [a[0], a[a.length - 1]];

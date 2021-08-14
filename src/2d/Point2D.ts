@@ -1,4 +1,4 @@
-export default class Point2D {
+export class Point2D {
     private coords;
 
     public constructor(x: number, y: number) {
@@ -45,7 +45,27 @@ export default class Point2D {
         return this.coords;
     }
 
+    public rotate(a: number, about: Point2D = Point2D.origin) {
+        const s = Math.sin(a);
+        const c = Math.cos(a);
+
+        this[0] -= about[0];
+        this[1] -= about[1];
+
+        const nx = this[0] * c - this[1] * s;
+        const ny = this[0] * s + this[1] * c;
+
+        this[0] = nx + about[0];
+        this[1] = ny + about[1];
+
+        return this;
+    }
+
     public static from(coords: [number, number]) {
         return new Point2D(coords[0], coords[1]);
+    }
+
+    public static get origin() {
+        return new Point2D(0, 0);
     }
 }

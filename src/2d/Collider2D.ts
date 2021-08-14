@@ -1,9 +1,9 @@
 import { Vector2 } from "../linalg/Vector2";
-import Rectangle from "./Rectangle";
-import Shape2D from "./Shape2D";
+import {Rectangle} from "./Rectangle";
+import {Shape2D} from "./Shape2D";
 import { edges, ends, orthogonal, overlap, project } from "./utils";
 
-export default class Collider2D<A extends Shape2D = Shape2D, B extends Shape2D = Shape2D> {
+export class Collider2D<A extends Shape2D = Shape2D, B extends Shape2D = Shape2D> {
     constructor(public readonly a: A, public readonly b: B) {}
 
     public collide(method: "AABB" | "SAT" = "SAT") {
