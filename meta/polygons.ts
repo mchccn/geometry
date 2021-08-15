@@ -19,7 +19,7 @@ import path from "path";
             "Dodecagon",
         ];
 
-        const target = path.join(process.cwd(), "src", "2d");
+        const target = path.join(process.cwd(), "src", "euclidean");
 
         shapes.forEach(async (name, i) => {
             if (!name) return;
@@ -31,6 +31,17 @@ import { Polygon2D } from "./Polygon2D";
 import { Point2D } from "./Point2D";
 
 export class ${name}2D extends Polygon2D<[${new Array(i).fill("Point2D").join(", ")}], "${name.toUpperCase()}"> {}
+`,
+                "utf8"
+            );
+
+            await fs.writeFile(
+                path.join(target, `Regular${name}2D.ts`),
+                `\
+import { RegularPolygon2D } from "./Polygon2D";
+import { Point2D } from "./Point2D";
+
+export class Regular${name}2D extends RegularPolygon2D<[${new Array(i).fill("Point2D").join(", ")}], "REGULAR_${name.toUpperCase()}"> {}
 `,
                 "utf8"
             );
