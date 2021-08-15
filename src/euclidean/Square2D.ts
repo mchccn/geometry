@@ -1,8 +1,8 @@
 import { Point2D } from "./Point2D";
 import { Shape2D } from "./Shape2D";
-import { PlanarEntity, Rotatable } from "./types";
+import { PlanarEntity, Rotatable2D } from "./types";
 
-export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUARE"> implements Rotatable, PlanarEntity {
+export class Square2D extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUARE"> implements Rotatable2D, PlanarEntity {
     public constructor(x = 0, y = 0, protected side = 1, protected angle = 0) {
         super(
             new Point2D(x, y),
@@ -53,7 +53,7 @@ export class Square extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "SQUAR
     }
 
     public clone() {
-        return new Square(this.pos.x, this.pos.y, this.side, this.angle);
+        return new Square2D(this.pos.x, this.pos.y, this.side, this.angle);
     }
 
     protected recalculateMesh() {

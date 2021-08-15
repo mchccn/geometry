@@ -1,8 +1,8 @@
 import { Point2D } from "./Point2D";
 import { Shape2D } from "./Shape2D";
-import { PlanarEntity, Rotatable } from "./types";
+import { PlanarEntity, Rotatable2D } from "./types";
 
-export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RECTANGLE"> implements Rotatable, PlanarEntity {
+export class Rectangle2D extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RECTANGLE"> implements Rotatable2D, PlanarEntity {
     protected dim: Point2D;
 
     public constructor(x = 0, y = 0, w = 1, h = 1, protected angle = 0) {
@@ -67,7 +67,7 @@ export class Rectangle extends Shape2D<[Point2D, Point2D, Point2D, Point2D], "RE
     }
 
     public clone() {
-        return new Rectangle(this.pos.x, this.pos.y, this.dim.x, this.dim.y, this.angle);
+        return new Rectangle2D(this.pos.x, this.pos.y, this.dim.x, this.dim.y, this.angle);
     }
 
     protected recalculateMesh() {

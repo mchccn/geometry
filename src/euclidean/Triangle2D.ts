@@ -1,8 +1,8 @@
 import { Point2D } from "./Point2D";
-import { Polygon } from "./Polygon";
-import { PlanarEntity, Rotatable } from "./types";
+import { Polygon2D } from "./Polygon2D";
+import { PlanarEntity, Rotatable2D } from "./types";
 
-export class Triangle extends Polygon<[Point2D, Point2D, Point2D], "TRIANGLE"> implements Rotatable, PlanarEntity {
+export class Triangle2D extends Polygon2D<[Point2D, Point2D, Point2D], "TRIANGLE"> implements Rotatable2D, PlanarEntity {
     protected lengths: [number, number, number];
 
     public constructor(x = 0, y = 0, vertices: [Point2D, Point2D, Point2D], protected angle = 0) {
@@ -50,7 +50,7 @@ export class Triangle extends Polygon<[Point2D, Point2D, Point2D], "TRIANGLE"> i
     }
 
     public clone() {
-        return new Triangle(this.pos.x, this.pos.y, this.mesh, this.angle);
+        return new Triangle2D(this.pos.x, this.pos.y, this.mesh, this.angle);
     }
 
     protected recalculateLengths() {

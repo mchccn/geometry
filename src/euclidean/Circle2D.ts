@@ -1,11 +1,11 @@
 import { LineSegment2D } from "./LineSegment2D";
 import { Point2D } from "./Point2D";
-import { Polygon } from "./Polygon";
+import { Polygon2D } from "./Polygon2D";
 import { Shape2D } from "./Shape2D";
 import { PlanarEntity } from "./types";
 import { EuclideanGeometryError } from "./utils";
 
-export class Circle implements PlanarEntity<true> {
+export class Circle2D implements PlanarEntity<true> {
     protected pos: Point2D;
 
     public constructor(x = 0, y = 0, protected radius = 1) {
@@ -49,7 +49,7 @@ export class Circle implements PlanarEntity<true> {
     }
 
     public static circumscribe(p: Shape2D) {
-        const center = p instanceof Polygon ? p.centroid : new Point2D(p.x, p.y);
+        const center = p instanceof Polygon2D ? p.centroid : new Point2D(p.x, p.y);
 
         function dist(p: Point2D, l: LineSegment2D) {
             const [v, w] = [l.a, l.b];
@@ -68,14 +68,14 @@ export class Circle implements PlanarEntity<true> {
 
         const d = dist(center, p.edges[0]);
 
-        return new Circle(center.x, center.y, d);
+        return new Circle2D(center.x, center.y, d);
     }
 
     public static inscribe(p: Shape2D) {
-        const center = p instanceof Polygon ? p.centroid : new Point2D(p.x, p.y);
+        const center = p instanceof Polygon2D ? p.centroid : new Point2D(p.x, p.y);
 
         const d = Math.max(...p.vertices.map((v) => Point2D.distance(v, center)));
 
-        return new Circle(center.x, center.y, d);
+        return new Circle2D(center.x, center.y, d);
     }
 }

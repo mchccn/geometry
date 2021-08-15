@@ -1,5 +1,5 @@
 import { Vector2 } from "../linalg/Vector2";
-import { Circle } from "./Circle";
+import { Circle2D } from "./Circle2D";
 import { Shape2D } from "./Shape2D";
 
 export class EuclideanGeometryError extends Error {
@@ -36,8 +36,8 @@ export function overlap(projection1: [number, number], projection2: [number, num
     return Math.min(...projection1) <= Math.max(...projection2) && Math.min(...projection2) <= Math.max(...projection1);
 }
 
-export function minmax(p: Shape2D | Circle): [number, number, number, number] {
-    if (p instanceof Circle) {
+export function minmax(p: Shape2D | Circle2D): [number, number, number, number] {
+    if (p instanceof Circle2D) {
         const k = Math.SQRT2 * p.r;
 
         return [p.x - k, p.y - k, p.x + k, p.y + k];

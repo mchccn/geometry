@@ -3,7 +3,7 @@ import { Shape2D } from "./Shape2D";
 import { PlanarEntity, PolygonType } from "./types";
 import { EuclideanGeometryError } from "./utils";
 
-export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = PolygonType> extends Shape2D<Mesh, Type> implements PlanarEntity {
+export class Polygon2D<Mesh extends Point2D[] = Point2D[], Type extends string = PolygonType> extends Shape2D<Mesh, Type> implements PlanarEntity {
     protected angle = 0;
 
     public constructor(x: number, y: number, vertices: Point2D[]) {
@@ -98,7 +98,7 @@ export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = P
         upper.pop();
         lower.pop();
 
-        return new Polygon(this.pos.x, this.pos.y, lower.concat(upper));
+        return new Polygon2D(this.pos.x, this.pos.y, lower.concat(upper));
     }
 
     public rotate(a: number, about = new Point2D(this.pos.x, this.pos.y)) {
@@ -108,7 +108,7 @@ export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = P
     }
 
     public clone() {
-        return new Polygon<Mesh, Type>(this.pos.x, this.pos.y, this.mesh).rotate(this.angle);
+        return new Polygon2D<Mesh, Type>(this.pos.x, this.pos.y, this.mesh).rotate(this.angle);
     }
 
     protected recalculateMesh() {
@@ -117,7 +117,7 @@ export class Polygon<Mesh extends Point2D[] = Point2D[], Type extends string = P
         return this.mesh;
     }
 
-    public static isConcave(p: Polygon) {
+    public static isConcave(p: Polygon2D) {
         let flag = 0;
 
         for (let i = 0; i < p.vertices.length; i++) {

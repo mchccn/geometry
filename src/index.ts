@@ -1,9 +1,11 @@
-import * as twod from "./2d";
+import * as euclidean from "./euclidean";
 import * as linalg from "./linalg";
 
-export * from "./2d";
+export * from "./euclidean";
 export * from "./linalg";
 
-const geometry = { ...twod, ...linalg };
+const geometry = { ...euclidean, ...linalg };
 
 export default geometry;
+module.exports = geometry;
+exports.default = geometry;

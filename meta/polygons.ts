@@ -25,12 +25,12 @@ import path from "path";
             if (!name) return;
 
             await fs.writeFile(
-                path.join(target, `${name}.ts`),
+                path.join(target, `${name}2D.ts`),
                 `\
-import { Polygon } from "./Polygon";
+import { Polygon2D } from "./Polygon2D";
 import { Point2D } from "./Point2D";
 
-export class ${name} extends Polygon<[${new Array(i).fill("Point2D").join(", ")}], "${name.toUpperCase()}"> {}
+export class ${name}2D extends Polygon2D<[${new Array(i).fill("Point2D").join(", ")}], "${name.toUpperCase()}"> {}
 `,
                 "utf8"
             );
@@ -39,18 +39,20 @@ export class ${name} extends Polygon<[${new Array(i).fill("Point2D").join(", ")}
         await fs.writeFile(
             path.join(target, "index.ts"),
             `\
-export { Circle } from "./Circle";
+export { Circle2D } from "./Circle2D";
 export { Collider2D } from "./Collider2D";
 export { Line2D } from "./Line2D";
+export { LineSegment2D } from "./LineSegment2D";
 export { Point2D } from "./Point2D";
-export { Polygon } from "./Polygon";
-export { Rectangle } from "./Rectangle";
+export { Polygon2D } from "./Polygon2D";
+export { Rectangle2D } from "./Rectangle2D";
 export { Shape2D } from "./Shape2D";
-export { Square } from "./Square";
+export { Square2D } from "./Square2D";
+export { Triangle2D } from "./Triangle2D";
 ` +
                 shapes
                     .slice(5)
-                    .map((s) => `export { ${s} } from "./${s}";`)
+                    .map((s) => `export { ${s}2D } from "./${s}2D";`)
                     .join("\n"),
             "utf8"
         );
